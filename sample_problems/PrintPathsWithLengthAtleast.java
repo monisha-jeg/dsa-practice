@@ -6,19 +6,21 @@ import java.util.Stack;
 import java.util.Queue;
 import basics.Graph;
 
+/** Print paths of length >= k in a graph from given source */
 public class PrintPathsWithLengthAtleast {
 
     private static void getPathsOfLengthKOrLonger(Graph g, int source, int k) {
         int size = g.size();
-        if (size == 0) return;
+        if (size == 0)
+            return;
 
         boolean[] visited = new boolean[size];
         Stack<Integer> path = new Stack<>();
         getPathsRecursive(g, source, k, visited, path);
     }
-    
+
     private static void printPath(Stack<Integer> path) {
-        for (Integer v : path) 
+        for (Integer v : path)
             System.out.print(v + " ");
         System.out.println();
     }
@@ -36,7 +38,7 @@ public class PrintPathsWithLengthAtleast {
                 getPathsRecursive(g, neighbor, k - 1, visited, path);
             }
         }
-        
+
         path.pop();
         visited[current] = false; // BACKTRACK: allow this node to be used in other paths
     }
@@ -52,7 +54,7 @@ public class PrintPathsWithLengthAtleast {
         g.addEdge(3, 9);
         g.addEdge(9, 4);
         g.addEdge(8, 5);
-        
+
         getPathsOfLengthKOrLonger(g, 2, 0);
     }
 }

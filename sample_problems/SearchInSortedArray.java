@@ -1,10 +1,11 @@
 package sample_problems;
 
+/** Search in a sorted rotated array in O(log n) */
 class SearchInSortedArray {
     static int binarySearch(int a[], int start, int end, int x) {
         while (start <= end) {
             int mid = (start + end) / 2;
-            if (a[mid] == x)    
+            if (a[mid] == x)
                 return mid;
             else if (a[mid] < x)
                 start = mid + 1;
@@ -13,11 +14,11 @@ class SearchInSortedArray {
         }
         return -1;
     }
-    
+
     static int findMinIndex(int a[]) {
         if (a[0] <= a[a.length - 1])
             return 0;
-        
+
         int start = 0, end = a.length - 1;
         while (start < end) {
             int mid = (start + end) / 2;
@@ -28,7 +29,7 @@ class SearchInSortedArray {
         }
         return start;
     }
-    
+
     static int search(int[] a, int x) {
         int minIndex = findMinIndex(a);
 
@@ -39,10 +40,10 @@ class SearchInSortedArray {
     }
 
     public static void main(String[] args) {
-        int a[] = {3, 4, 5, 6, 1, 2};
-        
-        System.out.println(findMinIndex(new int[]{3, 4, 5, 6, 1, 2}));
-        
+        int a[] = { 3, 4, 5, 6, 1, 2 };
+
+        System.out.println(findMinIndex(new int[] { 3, 4, 5, 6, 1, 2 }));
+
         System.out.println(search(a, 0));
         System.out.println(search(a, 1));
         System.out.println(search(a, 2));

@@ -2,12 +2,13 @@ package sample_problems;
 
 import basics.Graph;
 
-
+/** Count paths from source to destination in a graph */
 public class NumPathsBetweenTwoNodes {
-        
+
     private static int numPaths(Graph g, int source, int dest) {
         int size = g.size();
-        if (size == 0) return 0;
+        if (size == 0)
+            return 0;
 
         boolean[] visited = new boolean[size];
         return countPathsRecursive(g, source, dest, visited);
@@ -25,8 +26,8 @@ public class NumPathsBetweenTwoNodes {
         for (int neighbor : g.adjList.get(current)) {
             if (!visited[neighbor]) {
                 count += countPathsRecursive(g, neighbor, dest, visited);
-                }
             }
+        }
 
         visited[current] = false; // BACKTRACK: allow this node to be used in other paths
         return count;
@@ -43,7 +44,7 @@ public class NumPathsBetweenTwoNodes {
         g.addEdge(3, 9);
         g.addEdge(9, 4);
         g.addEdge(8, 5);
-        
-        System.out.println(numPaths(g, 2,4));
+
+        System.out.println(numPaths(g, 2, 4));
     }
 }

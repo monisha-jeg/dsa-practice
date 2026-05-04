@@ -2,9 +2,11 @@ package sample_problems;
 
 import java.util.*;
 
+/** Sieve of Eratosthenes */
 public class SieveOfEratosthenes {
     public static void sieveOfEratosthenes(int n, List<Integer> v) {
-        if (n < 2) return;
+        if (n < 2)
+            return;
 
         // 1. Create the array and fill it with true
         boolean[] isPrime = new boolean[n + 1];
@@ -36,6 +38,6 @@ public class SieveOfEratosthenes {
     public static void main(String[] args) {
         List<Integer> primes = new ArrayList<>();
         sieveOfEratosthenes(30, primes);
-        System.out.println(primes); 
+        System.out.println(primes);
     }
 }
