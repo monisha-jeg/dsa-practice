@@ -1,76 +1,80 @@
 package basics;
 
 public class LinkedListTest {
-    static class Node {
-        int value;
-        Node next;
-        
+    public static class Node {
+        public int value;
+        public Node next;
+
         Node(int value, Node next) {
             this.value = value;
             this.next = next;
         }
     }
 
-    static class LinkedList {
-        Node head;
-        
-        LinkedList(int a, int b, int c, int d, int e) {
+    public static class LinkedList {
+        public Node head;
+
+        public LinkedList() {
+        }
+
+        public LinkedList(int a, int b, int c, int d, int e) {
             Node enode = new Node(e, null);
             Node dnode = new Node(d, enode);
             Node cnode = new Node(c, dnode);
             Node bnode = new Node(b, cnode);
             head = new Node(a, bnode);
         }
-        
-        void print() {
+
+        public void print() {
             Node current = head;
-            while(current != null) {
+            while (current != null) {
                 System.out.println(current.value);
                 current = current.next;
             }
-        }    
-        
-        int size() {
+        }
+
+        public int size() {
             Node current = head;
             int size = 0;
-            while(current != null) {
+            while (current != null) {
                 size += 1;
                 current = current.next;
             }
             return size;
         }
-        
+
         int recursiveSize() {
             return recursiveSize(head);
         }
-        
+
         int recursiveSize(Node node) {
             return node == null ? 0 : 1 + recursiveSize(node.next);
         }
-        
-        void append(int value) {
+
+        public void append(int value) {
             Node last = getLastNode();
             if (last == null) {
                 head = new Node(value, null);
+            } else {
+                last.next = new Node(value, null);
             }
-            last.next = new Node(value, null);
         }
-        
+
         Node getLastNode() {
             Node current = head;
             if (current == null) {
                 return null;
             }
-            while(current.next != null) {
+            while (current.next != null) {
                 current = current.next;
             }
             return current;
         }
-        
+
         void prepend(int value) {
-        head = new Node(value, head);
+            head = new Node(value, head);
         }
-        
+
         void deleteFirst() {
             if (head == null) {
                 return;
@@ -87,7 +91,6 @@ public class LinkedListTest {
             return interested.value;
         }
 
-        
         void deleteLast() {
             if (head == null) {
                 return;
@@ -97,12 +100,12 @@ public class LinkedListTest {
                 return;
             }
             Node current = head;
-            while(current.next.next != null) {
+            while (current.next.next != null) {
                 current = current.next;
             }
             current.next = null;
         }
-        
+
         void insertNodeAt(int p, int value) {
             if (head == null) {
                 if (p != 0) {
@@ -122,9 +125,9 @@ public class LinkedListTest {
                 }
             }
             current.next = new Node(value, current.next);
-            
+
         }
-        
+
         void deleteNodeAt(int p) {
             if (head == null) {
                 return;
@@ -136,16 +139,16 @@ public class LinkedListTest {
             Node current = head;
             for (int i = 0; i < p - 1; i++) {
                 current = current.next;
-     if (current.next == null) {
+                if (current.next == null) {
                     throw new IllegalArgumentException();
-                 }
+                }
             }
-if (current.next == null) {
-                    throw new IllegalArgumentException();
-           }
-           current.next = current.next.next;
+            if (current.next == null) {
+                throw new IllegalArgumentException();
+            }
+            current.next = current.next.next;
         }
-        
+
         int searchNode(int searchValue) {
             Node current = head;
             int index = 0;
@@ -158,11 +161,11 @@ if (current.next == null) {
             }
             return -1;
         }
-        
+
         int recursiveSearch(int searchValue) {
             return recursiveSearch(head, searchValue, 0);
         };
-        
+
         int recursiveSearch(Node current, int searchValue, int currentIndex) {
             if (current == null) {
                 return -1;
@@ -172,14 +175,14 @@ if (current.next == null) {
             }
             return recursiveSearch(current.next, searchValue, currentIndex + 1);
         }
-        
+
         void reverse() {
             if (head == null) {
                 return;
             }
             Node toReverseStartingFromNode = head;
             Node lastNodeOfReversedPortion = null;
-            while(toReverseStartingFromNode != null) {
+            while (toReverseStartingFromNode != null) {
                 Node temp = toReverseStartingFromNode.next;
                 toReverseStartingFromNode.next = lastNodeOfReversedPortion;
                 lastNodeOfReversedPortion = toReverseStartingFromNode;
@@ -187,7 +190,7 @@ if (current.next == null) {
             }
             head = lastNodeOfReversedPortion;
         }
-        
+
         void recursiveReverse(boolean complex) {
             if (complex == false) {
                 head = recursiveReverse(null, head);
@@ -195,9 +198,9 @@ if (current.next == null) {
                 complexRecursiveReverse(head);
             }
         }
-        
-        Node recursiveReverse(Node lastNodeOfReversedPortion, Node toReverseStartingFromNode) { 
-            if(toReverseStartingFromNode == null) {
+
+        Node recursiveReverse(Node lastNodeOfReversedPortion, Node toReverseStartingFromNode) {
+            if (toReverseStartingFromNode == null) {
                 return lastNodeOfReversedPortion;
             }
             Node temp = toReverseStartingFromNode.next;
@@ -206,16 +209,16 @@ if (current.next == null) {
             toReverseStartingFromNode = temp;
             return recursiveReverse(lastNodeOfReversedPortion, toReverseStartingFromNode);
         }
-        
+
         void complexRecursiveReverse(Node current) {
-           if (current.next == null) {
-               head = current;
-               return;
-           }
-           Node temp = current.next;
-           complexRecursiveReverse(current.next);
-           current.next = null;
-           temp.next = current;
+            if (current.next == null) {
+                head = current;
+                return;
+            }
+            Node temp = current.next;
+            complexRecursiveReverse(current.next);
+            current.next = null;
+            temp.next = current;
         }
     }
 

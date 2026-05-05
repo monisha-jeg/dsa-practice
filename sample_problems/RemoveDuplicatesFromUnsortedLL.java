@@ -1,15 +1,20 @@
 package sample_problems;
 
+import java.util.HashSet;
 import basics.LinkedListTest.LinkedList;
 import basics.LinkedListTest.Node;
 
-/** Remove duplicates from a sorted linked list */
-class RemoveDuplicatesFromSortedLL {
+/** Remove duplicates from an unsorted linked list */
+class RemoveDuplicatesFromUnsortedLL {
 
     private static void removeDuplicates(LinkedList list) {
+        HashSet<Integer> valuesSeen = new HashSet<>();
+
         Node current = list.head;
-        while(current != null) {
-            if (current.next != null && current.value == current.next.value) {
+
+        while (current != null) {
+            valuesSeen.add(current.value);
+            if (current.next != null && valuesSeen.contains(current.next.value)) {
                 current.next = current.next.next;
             } else {
                 current = current.next;
@@ -18,7 +23,7 @@ class RemoveDuplicatesFromSortedLL {
     }
 
     public static void main(String[] args) {
-        LinkedList list1 = new LinkedList(3, 4, 5, 5, 5);
+        LinkedList list1 = new LinkedList(6, 0, 3, 4, 0);
         list1.append(6);
         list1.print();
         System.out.println();
