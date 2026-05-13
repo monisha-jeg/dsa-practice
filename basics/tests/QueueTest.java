@@ -1,22 +1,18 @@
-package basics;
+package basics.tests;
 
-public class QueueFromScratch {
-    LinkedList queuehead = new LinkedList();
+import basics.*;
 
-    public void enqueue(int value) {
-        queuehead.append(value);
-    }
-
-    public int dequeue() {
-        return queuehead.removeFirst();
-    }
+public class QueueTest {
 
     public static void run() {
         QueueFromScratch queue = new QueueFromScratch();
-        queue.queuehead = new LinkedList();
         queue.enqueue(1);
         queue.enqueue(2);
         queue.enqueue(3);
         System.out.println("Queue after enqueues: " + queue.dequeue() + " " + queue.dequeue() + " " + queue.dequeue());
+    }
+
+    public static void main(String[] args) {
+        run();
     }
 }

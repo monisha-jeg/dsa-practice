@@ -1,14 +1,14 @@
 package sample_problems;
 
-import basics.LinkedListTest.LinkedList;
-import basics.LinkedListTest.Node;
+import basics.LinkedList;
+import basics.Node;
 
 /** Remove duplicates from a sorted linked list */
 class RemoveDuplicatesFromSortedLL {
 
     private static void removeDuplicates(LinkedList list) {
         Node current = list.head;
-        while(current != null) {
+        while (current != null) {
             if (current.next != null && current.value == current.next.value) {
                 current.next = current.next.next;
             } else {

@@ -1,8 +1,8 @@
 package sample_problems;
 
 import java.util.HashSet;
-import basics.LinkedListTest.LinkedList;
-import basics.LinkedListTest.Node;
+import basics.LinkedList;
+import basics.Node;
 
 /** Remove duplicates from an unsorted linked list */
 class RemoveDuplicatesFromUnsortedLL {

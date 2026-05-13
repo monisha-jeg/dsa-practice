@@ -1,4 +1,6 @@
-package basics;
+package basics.tests;
+
+import basics.*;
 
 public class GraphTest {
 
@@ -10,14 +12,17 @@ public class GraphTest {
         g.addEdge(4, 5);
         g.addEdge(3, 2);
         g.addEdge(2, 0);
-    
-        
+
         g.dfsRecursive();
         g.dfsStack();
         g.bfs();
-        
+
         System.out.println("\nCycle: " + g.hasCycleDirected());
-        
+
         g.topoSort();
+    }
+
+    public static void main(String[] args) {
+        run();
     }
 }

@@ -1,9 +1,6 @@
 package sample_problems;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Stack;
-import java.util.Queue;
 import basics.Graph;
 
 /** Print paths of length >= k in a graph from given source */
