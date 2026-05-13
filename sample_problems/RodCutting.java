@@ -30,6 +30,35 @@ class RodCutting {
         return maxPrice;
     }
 
+    public static int bestPriceRecursiveDp(int prices[], int n) {
+        int bestPrice[] = new int[n + 1];
+        int optimalCuts[] = new int[n + 1];
+        int bestPriceFinal = bestPriceRecursiveDp(prices, n, optimalCuts, bestPrice);
+        printOptimalCuts(optimalCuts, n);
+        return bestPriceFinal;
+    }
+
+    public static int bestPriceRecursiveDp(int prices[], int n, int optimalCuts[], int bestPrice[]) {
+        if (n <= 0) {
+            bestPrice[n] = 0;
+        } else if (bestPrice[n] != 0) {
+            // Already calculated.
+        } else {
+            int maxPrice = prices[n];
+            optimalCuts[n] = n;
+            for (int i = 1; i < n; i++) {
+                // Cut at index i -> pieces of length i and n - i.
+                int price = prices[i] + bestPriceRecursive(prices, n - i, optimalCuts);
+                if (price > maxPrice) {
+                    maxPrice = price;
+                    optimalCuts[n] = i; // Store the cut that gives the best price for length n.
+                }
+            }
+            bestPrice[n] = maxPrice;
+        }
+        return bestPrice[n];
+    }
+
     public static int bestPriceDp(int prices[], int n) {
         int bestPrice[] = new int[n + 1];
         int optimalCuts[] = new int[n + 1];
@@ -61,6 +90,7 @@ class RodCutting {
         int prices[] = { 0, 1, 5, 8, 9, 10, 17, 17, 20 };
         int n = 8;
         System.out.println(bestPriceRecursive(prices, n) + "\n");
+        System.out.println(bestPriceRecursiveDp(prices, n) + "\n");
         System.out.println(bestPriceDp(prices, n));
     }
 }

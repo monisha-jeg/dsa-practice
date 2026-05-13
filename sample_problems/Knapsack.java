@@ -1,5 +1,7 @@
 package sample_problems;
 
+import java.util.Arrays;
+
 /**
  * Given weights and values of n items, put these items in a knapsack of
  * capacity W to get the maximum total value in the knapsack.
@@ -10,7 +12,7 @@ package sample_problems;
 public class Knapsack {
     static int bestValueRecursive(int values[], int weights[], int W) {
         boolean valuesChosen[] = new boolean[values.length];
-        int bestValue = bestValueRecursive(values, weights, W, 0, valuesChosen);
+        int bestValue = bestValueRecursive(values, weights, W, values.length - 1, valuesChosen);
         for (int i = 0; i < valuesChosen.length; i++) {
             if (valuesChosen[i]) {
                 System.out.println("Selected item " + i);
@@ -19,22 +21,61 @@ public class Knapsack {
         return bestValue;
     }
 
-    static int bestValueRecursive(int values[], int weights[], int W, int index, boolean valuesChosen[]) {
-        if (W <= 0 || index >= values.length) {
+    static int bestValueRecursive(int values[], int weights[], int w, int n, boolean valuesChosen[]) {
+        if (w <= 0 || n == 0) {
             return 0;
         }
-        if (weights[index] > W) {
-            return bestValueRecursive(values, weights, W, index + 1, valuesChosen);
+        if (weights[n] > w) {
+            return bestValueRecursive(values, weights, w, n - 1, valuesChosen);
         }
-        int valueWithItem = values[index]
-                + bestValueRecursive(values, weights, W - weights[index], index + 1, valuesChosen);
-        int valueWithoutItem = bestValueRecursive(values, weights, W, index + 1, valuesChosen);
+        int valueWithItem = values[n]
+                + bestValueRecursive(values, weights, w - weights[n], n - 1, valuesChosen);
+        int valueWithoutItem = bestValueRecursive(values, weights, w, n - 1, valuesChosen);
         if (valueWithItem > valueWithoutItem) {
-            valuesChosen[index] = true;
+            valuesChosen[n] = true;
             return valueWithItem;
         } else {
             return valueWithoutItem;
         }
+    }
+
+    static void initialize(int[][] array) {
+        for (int[] row : array)
+            Arrays.fill(row, -1);
+    }
+
+    static int bestValueRecursiveDp(int values[], int weights[], int W) {
+        int bestValue[][] = new int[values.length + 1][W + 1];
+        initialize(bestValue);
+        boolean valuesChosen[] = new boolean[values.length];
+        int bestValueFinal = bestValueRecursiveDp(values, weights, W, values.length, bestValue, valuesChosen);
+        for (int i = 0; i < valuesChosen.length; i++) {
+            if (valuesChosen[i]) {
+                System.out.println("Selected item " + i);
+            }
+        }
+        return bestValueFinal;
+    }
+
+    static int bestValueRecursiveDp(int values[], int weights[], int w, int n, int bestValue[][],
+            boolean valuesChosen[]) {
+        if (w <= 0 || n == 0) {
+            bestValue[n][w] = 0;
+        } else if (bestValue[n][w] != -1) {
+            // We already calculated it.
+        } else if (weights[n - 1] > w) {
+            return bestValueRecursive(values, weights, w, n - 1, valuesChosen);
+        }
+        int valueWithItem = values[n - 1]
+                + bestValueRecursive(values, weights, w - weights[n - 1], n - 1, valuesChosen);
+        int valueWithoutItem = bestValueRecursive(values, weights, w, n - 1, valuesChosen);
+        if (valueWithItem > valueWithoutItem) {
+            valuesChosen[n - 1] = true;
+            bestValue[n][w] = valueWithItem;
+        } else {
+            bestValue[n][w] = valueWithoutItem;
+        }
+        return bestValue[n][w];
     }
 
     static void printSelecteditems(int bestValue[][], int weights[], int W) {
@@ -81,6 +122,7 @@ public class Knapsack {
         int[] weights = { 10, 20, 30 };
         int W = 50;
         System.out.println(bestValueRecursive(values, weights, W) + "\n");
+        System.out.println(bestValueRecursiveDp(values, weights, W) + "\n");
         System.out.println(bestValueDp(values, weights, W) + "\n");
         System.out.println(bestValueDp1DStorage(values, weights, W) + "\n");
     }
