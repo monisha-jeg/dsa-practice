@@ -44,7 +44,7 @@ public class Sort {
                     arr[j + 1] = arr[j];
                 else
                     break;
-            arr[j+1] = valToInsert;
+            arr[j + 1] = valToInsert;
         }
         return arr;
     }
@@ -118,10 +118,6 @@ public class Sort {
         }
     }
 
-    public static int[] quickSort(int[] arr) {
-        return arr;
-    }
-
     public static int[] countingSort(int[] arr) {
         // Max value.
         int maxValueInArr = arr[0];
@@ -161,8 +157,5 @@ public class Sort {
         System.out.println("Merge Sort: " + Arrays.toString(mergeSort(sampleArray.clone())));
         System.out.println("Merge Sort: " + Arrays.toString(mergeSortWithoutExtraSubArrays(sampleArray.clone())));
 
-        System.out.println("Quick Sort: " + Arrays.toString(quickSort(sampleArray.clone())));
-        System.out.println("Counting Sort: " + Arrays.toString(countingSort(sampleArray.clone())));
-    }
 
 }
