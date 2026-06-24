@@ -1,5 +1,8 @@
 package basics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LinkedList {
     public Node head;
 
@@ -38,6 +41,16 @@ public class LinkedList {
 
     int recursiveSize(Node node) {
         return node == null ? 0 : 1 + recursiveSize(node.next);
+    }
+
+    public List<Integer> values() {
+        List<Integer> values = new ArrayList<>();
+        Node current = head;
+        while (current != null) {
+            values.add(current.value);
+            current = current.next;
+        }
+        return values;
     }
 
     public void append(int value) {

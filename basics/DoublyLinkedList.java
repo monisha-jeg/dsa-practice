@@ -1,5 +1,8 @@
 package basics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DoublyLinkedList {
     public DoublyNode head;
 
@@ -39,6 +42,26 @@ public class DoublyLinkedList {
             current = current.next;
         }
         return current;
+    }
+
+    public List<Integer> values() {
+        List<Integer> values = new ArrayList<>();
+        DoublyNode current = head;
+        while (current != null) {
+            values.add(current.value);
+            current = current.next;
+        }
+        return values;
+    }
+
+    public List<Integer> reverseValues() {
+        List<Integer> values = new ArrayList<>();
+        DoublyNode current = getLastNode();
+        while (current != null) {
+            values.add(current.value);
+            current = current.prev;
+        }
+        return values;
     }
 
     public void prepend(int value) {

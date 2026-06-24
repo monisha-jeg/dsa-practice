@@ -22,6 +22,24 @@ public class BinaryTree {
         return 1 + size(root.right) + size(root.left);
     }
 
+    public int search(int value) {
+        return search(root, value, 0);
+    }
+
+    private int search(TreeNode node, int value, int currentIndex) {
+        if (node == null) {
+            return -1;
+        }
+        if (node.value == value) {
+            return currentIndex;
+        }
+        int leftResult = search(node.left, value, currentIndex + 1);
+        if (leftResult != -1) {
+            return leftResult;
+        }
+        return search(node.right, value, currentIndex + 1);
+    }
+
     public ArrayList<Integer> preorder() {
         ArrayList<Integer> values = new ArrayList<>();
         preorder(root, values);
@@ -96,6 +114,8 @@ public class BinaryTree {
         collectValuesAtLevel(root.right, level - 1, values);
     }
 
+    public static final int LEVEL_SEPARATOR = Integer.MIN_VALUE;
+
     public ArrayList<Integer> levelOrder_Queue() {
         ArrayList<Integer> values = new ArrayList<>();
         if (root == null) {
@@ -104,12 +124,18 @@ public class BinaryTree {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         while (!queue.isEmpty()) {
-            TreeNode first = queue.poll();
-            values.add(first.value);
-            if (first.left != null)
-                queue.offer(first.left);
-            if (first.right != null)
-                queue.offer(first.right);
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                TreeNode first = queue.poll();
+                values.add(first.value);
+                if (first.left != null)
+                    queue.offer(first.left);
+                if (first.right != null)
+                    queue.offer(first.right);
+            }
+            if (!queue.isEmpty()) {
+                values.add(LEVEL_SEPARATOR);
+            }
         }
         return values;
     }
@@ -119,6 +145,9 @@ public class BinaryTree {
         int height = height();
         for (int i = 1; i <= height; i++) {
             values.addAll(printAtLevel(i));
+            if (i < height) {
+                values.add(LEVEL_SEPARATOR);
+            }
         }
         return values;
     }
@@ -144,78 +173,19 @@ public class BinaryTree {
         }
     }
 
-    public void delete_ByMovingNodes(int value) {
-        if (root.value == value) { // Special case for root.
-            if (root.left != null) {
-                freeRightChildSpotOf(root.left);
-                TreeNode temp = root.right;
-                root = root.left;
-                root.right = temp;
-            } else {
-                root = root.right;
-            }
-            return;
-        }
-
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-
-        while (!queue.isEmpty()) {
-            TreeNode first = queue.poll();
-            if (first.left != null) {
-                if (first.left.value == value) {
-                    if (first.left.left != null) {
-                        freeRightChildSpotOf(first.left.left);
-                        TreeNode temp = first.left.right;
-                        first.left = first.left.left; // Abandon 'first.left'.
-                        first.left.right = temp; // Attach right node of abandoned.
-                    } else {
-                        first.left = first.left.right;
-                    }
-                    return;
-                }
-                queue.offer(first.left);
-            }
-            if (first.right != null) {
-                if (first.right.value == value) {
-                    if (first.right.left != null) {
-                        freeRightChildSpotOf(first.right.left);
-                        TreeNode temp = first.right.right;
-                        first.right = first.right.left; // Abandon 'first.right'.
-                        first.right.right = temp; // Attach right node of abandoned.
-                    } else {
-                        first.right = first.right.right;
-                    }
-                    return;
-                }
-                queue.offer(first.right);
-            }
-        }
-    }
-
-    public void freeRightChildSpotOf(TreeNode node) {
-        if (node.right == null)
-            return; // Right is already free.
-        if (node.left == null) {
-            node.left = node.right; // Make right free by moving to left.
-            return;
-        }
-        freeRightChildSpotOf(node.left);
-        node.left.right = node.right; // Right child moved to grandchild.
-    }
-
-    public void deleteByMovingValues(int value) {
-        delete_ByMovingValues(value);
-    }
-
-    public void delete_ByMovingValues(int value) {
+    /**
+     * Complicated, I wrote it, moves value by value instead of a single move, seems
+     * correct althought he oiutput tree will be diferent from what the standard
+     * algorithm returns.
+     */
+    public void delete_byMovingValues(int value) {
         if (root.value == value) { // Special case for root.
             if (root.left != null) {
                 root.value = root.left.value;
-                moveValuesFromSubtreeAndDropDeepestNode(root.left);
+                root.left = moveValuesFromSubtreeAndDropDeepestNode(root.left);
             } else if (root.right != null) {
                 root.value = root.right.value;
-                moveValuesFromSubtreeAndDropDeepestNode(root.right);
+                root.right = moveValuesFromSubtreeAndDropDeepestNode(root.right);
             } else {
                 root = null;
             }
@@ -267,5 +237,151 @@ public class BinaryTree {
 
     boolean isLeaf(TreeNode node) {
         return node.left == null && node.right == null;
+    }
+
+    /** This is the standard algorithmf or binary tree deletion. AI-written. */
+    public void delete_byReplacingWithDeepestValue(int value) {
+        if (root == null)
+            return;
+
+        // Special-case: single node
+        if (root.left == null && root.right == null) {
+            if (root.value == value)
+                root = null;
+            return;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        TreeNode nodeToDelete = null;
+        TreeNode deepest = null;
+        TreeNode parentOfDeepest = null;
+
+        while (!queue.isEmpty()) {
+            TreeNode curr = queue.poll();
+            if (curr.value == value)
+                nodeToDelete = curr;
+            if (curr.left != null) {
+                queue.offer(curr.left);
+                parentOfDeepest = curr;
+                deepest = curr.left;
+            }
+            if (curr.right != null) {
+                queue.offer(curr.right);
+                parentOfDeepest = curr;
+                deepest = curr.right;
+            }
+        }
+
+        if (nodeToDelete == null)
+            return; // value not found
+
+        // Replace node value with deepest node's value
+        if (deepest != null) {
+            nodeToDelete.value = deepest.value;
+            // remove deepest node from its parent
+            if (parentOfDeepest != null) {
+                if (parentOfDeepest.left == deepest)
+                    parentOfDeepest.left = null;
+                else if (parentOfDeepest.right == deepest)
+                    parentOfDeepest.right = null;
+            }
+        }
+    }
+
+    /**
+     * Move the deepest node object into the deleted node's position (transplant
+     * node). AI-written. Standard algorithm.
+     */
+    public void delete_byReplacingWithDeepestNode(int value) {
+        if (root == null)
+            return;
+
+        // Special-case: single node
+        if (root.left == null && root.right == null) {
+            if (root.value == value)
+                root = null;
+            return;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        TreeNode nodeToDelete = null;
+        TreeNode parentOfNodeToDelete = null;
+        TreeNode deepest = null;
+        TreeNode parentOfDeepest = null;
+
+        while (!queue.isEmpty()) {
+            TreeNode curr = queue.poll();
+            if (curr.value == value && nodeToDelete == null) {
+                nodeToDelete = curr;
+                // parentOfNodeToDelete will be set when we find it as a child below
+                if (curr == root)
+                    parentOfNodeToDelete = null;
+            }
+            if (curr.left != null) {
+                if (curr.left.value == value && nodeToDelete == null) {
+                    nodeToDelete = curr.left;
+                    parentOfNodeToDelete = curr;
+                }
+                queue.offer(curr.left);
+                parentOfDeepest = curr;
+                deepest = curr.left;
+            }
+            if (curr.right != null) {
+                if (curr.right.value == value && nodeToDelete == null) {
+                    nodeToDelete = curr.right;
+                    parentOfNodeToDelete = curr;
+                }
+                queue.offer(curr.right);
+                parentOfDeepest = curr;
+                deepest = curr.right;
+            }
+        }
+
+        if (nodeToDelete == null)
+            return; // not found
+
+        // If deepest is the nodeToDelete, just remove it
+        if (deepest == nodeToDelete) {
+            if (parentOfDeepest == null) {
+                root = null;
+            } else {
+                if (parentOfDeepest.left == deepest)
+                    parentOfDeepest.left = null;
+                else if (parentOfDeepest.right == deepest)
+                    parentOfDeepest.right = null;
+            }
+            return;
+        }
+
+        // Save children references of nodeToDelete
+        TreeNode leftChild = nodeToDelete.left;
+        TreeNode rightChild = nodeToDelete.right;
+
+        // Detach deepest from its parent
+        if (parentOfDeepest != null) {
+            if (parentOfDeepest.left == deepest)
+                parentOfDeepest.left = null;
+            else if (parentOfDeepest.right == deepest)
+                parentOfDeepest.right = null;
+        }
+
+        // Place deepest in nodeToDelete's position
+        if (parentOfNodeToDelete == null) {
+            root = deepest;
+        } else {
+            if (parentOfNodeToDelete.left == nodeToDelete)
+                parentOfNodeToDelete.left = deepest;
+            else if (parentOfNodeToDelete.right == nodeToDelete)
+                parentOfNodeToDelete.right = deepest;
+        }
+
+        // Attach children to deepest, avoiding self-links when deepest was a direct
+        // child
+        deepest.left = (leftChild == deepest) ? null : leftChild;
+        deepest.right = (rightChild == deepest) ? null : rightChild;
     }
 }

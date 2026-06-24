@@ -1,5 +1,8 @@
 package basics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CircularLinkedList {
     public Node head;
 
@@ -13,6 +16,20 @@ public class CircularLinkedList {
             System.out.println(current.value);
             current = current.next;
         }
+    }
+
+    public List<Integer> values() {
+        List<Integer> values = new ArrayList<>();
+        if (head == null) {
+            return values;
+        }
+        values.add(head.value);
+        Node current = head.next;
+        while (current != head) {
+            values.add(current.value);
+            current = current.next;
+        }
+        return values;
     }
 
     public int size() {

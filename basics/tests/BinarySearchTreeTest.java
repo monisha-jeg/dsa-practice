@@ -22,7 +22,7 @@ public class BinarySearchTreeTest {
         assertEquals(9, tree.size(), "Size after inserts");
         assertNotNull(tree.search(7), "Root should exist after inserts");
         assertNotNull(tree.search(14), "Inserted value 14 should exist");
-        assertEquals(List.of(1, 2, 5, 6, 7, 10, 11, 13, 14), inorder(tree.root), "Inorder after inserts");
+        assertEquals(List.of(1, 2, 5, 6, 7, 10, 11, 13, 14), tree.inorder(), "Inorder after inserts");
 
         tree.delete(14);
         assertNull(tree.search(14), "Deleted value 14 should not be found");
@@ -31,21 +31,6 @@ public class BinarySearchTreeTest {
         tree.delete(7);
         assertNull(tree.search(7), "Deleted root 7 should not be found");
         assertEquals(7, tree.size(), "Size after deleting 7");
-    }
-
-    private static List<Integer> inorder(TreeNode node) {
-        List<Integer> values = new ArrayList<>();
-        inorder(node, values);
-        return values;
-    }
-
-    private static void inorder(TreeNode node, List<Integer> values) {
-        if (node == null) {
-            return;
-        }
-        inorder(node.left, values);
-        values.add(node.value);
-        inorder(node.right, values);
     }
 
     public static void main(String[] args) {

@@ -3,7 +3,7 @@ package basics.tests;
 import basics.*;
 import static basics.tests.TestUtils.*;
 
-public class HeapTest {
+public class MinHeapTest {
 
     public static void run() {
         MinHeap heap = new MinHeap();
@@ -24,6 +24,16 @@ public class HeapTest {
         heap.delete(i);
         assertEquals(-1, heap.search(4), "Deleted value 4 should no longer be found");
         assertEquals(5, heap.size(), "Heap size after deleting 4");
+
+        // Regression test for heapifyDown choosing the smaller child.
+        MinHeap heapifyDownTest = new MinHeap();
+        heapifyDownTest.heap.add(10);
+        heapifyDownTest.heap.add(2);
+        heapifyDownTest.heap.add(4);
+        heapifyDownTest.heapifyDown(0);
+        assertEquals(2, heapifyDownTest.heap.get(0).intValue(), "heapifyDown should swap with the smaller child");
+        assertEquals(10, heapifyDownTest.heap.get(1).intValue(), "larger child should move down after heapifyDown");
+        assertEquals(4, heapifyDownTest.heap.get(2).intValue(), "other child should remain unchanged");
     }
 
     public static void main(String[] args) {

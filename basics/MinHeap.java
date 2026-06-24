@@ -69,14 +69,32 @@ public class MinHeap {
     }
 
     public void delete(int index) {
-        heap.set(index, heap.get(size() - 1));
-        heap.remove(size() - 1);
-        heapifyDown(index);
+        int lastIndex = size() - 1;
+        if (index < 0 || index > lastIndex) {
+            throw new IllegalArgumentException();
+        }
+        if (index == lastIndex) {
+            heap.remove(lastIndex);
+            return;
+        }
+        int replaced = heap.get(lastIndex);
+        heap.set(index, replaced);
+        heap.remove(lastIndex);
+
+        int parentIndex = parent(index);
+        if (index > 0 && heap.get(index) < heap.get(parentIndex)) {
+            heapifyUp(index);
+        } else {
+            heapifyDown(index);
+        }
     }
 
     public void heapifyUp(int index) {
-        for (int i = index; heap.get(i) < heap.get(parent(i)); i = parent(i))
+        int i = index;
+        while (i > 0 && heap.get(i) < heap.get(parent(i))) {
             swap(i, parent(i));
+            i = parent(i);
+        }
     }
 
     void swap(int i, int j) {
@@ -87,9 +105,9 @@ public class MinHeap {
 
     public void heapifyDown(int index) {
         int minIndex = index;
-        if (left(index) < size() && heap.get(left(index)) < heap.get(index))
+        if (left(index) < size() && heap.get(left(index)) < heap.get(minIndex))
             minIndex = left(index);
-        if (right(index) < size() && heap.get(right(index)) < heap.get(index))
+        if (right(index) < size() && heap.get(right(index)) < heap.get(minIndex))
             minIndex = right(index);
         if (minIndex != index) {
             swap(minIndex, index);

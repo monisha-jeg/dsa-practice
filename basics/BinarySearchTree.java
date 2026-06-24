@@ -1,5 +1,6 @@
 package basics;
 
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -21,18 +22,19 @@ public class BinarySearchTree {
         return 1 + size(root.right) + size(root.left);
     }
 
-    public void inorder() {
-        System.out.println("\nInorder:");
-        inorder(root);
+    public ArrayList<Integer> inorder() {
+        ArrayList<Integer> values = new ArrayList<>();
+        inorder(root, values);
+        return values;
     }
 
-    void inorder(TreeNode root) {
+    void inorder(TreeNode root, ArrayList<Integer> values) {
         if (root == null) {
             return;
         }
-        inorder(root.left);
-        System.out.print(root.value + " ");
-        inorder(root.right);
+        inorder(root.left, values);
+        values.add(root.value);
+        inorder(root.right, values);
     }
 
     public int height() {
@@ -122,6 +124,7 @@ public class BinarySearchTree {
                 node.value = nextVal;
                 node.right = deleteAndReturnNewRoot(node.right, nextVal);
             }
+            return node;
         }
         if (node.value > value)
             node.left = deleteAndReturnNewRoot(node.left, value);
