@@ -17,10 +17,12 @@ public class GraphTest {
 
         assertFalse(g.hasCycle_Directed(), "Directed graph should not contain a cycle");
         assertEquals(10, g.size(), "Graph should contain 10 vertices");
-        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.dfsRecursive(),
+        assertEquals(List.of(0, 1, 2, 5, 3, 4, 6, 7, 8, 9), g.dfsRecursive(),
                 "DFS recursive should visit vertices in correct order");
-        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.dfsStack(), "DFS stack should visit vertices in correct order");
-        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.bfs(), "BFS should visit vertices in breadth-first order");
+        assertEquals(List.of(0, 1, 2, 5, 3, 4, 6, 7, 8, 9), g.dfsStack(),
+                "DFS stack should visit vertices in correct order");
+        assertEquals(List.of(0, 1, 2, 5, 3, 4, 6, 7, 8, 9), g.bfs(),
+                "BFS should visit vertices in breadth-first order");
 
         Graph dag = new Graph(6, /* directed= */ true);
         dag.addEdge(5, 2);

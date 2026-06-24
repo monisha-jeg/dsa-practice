@@ -71,8 +71,8 @@ public class BinarySearchTree {
         if (node == null || node.value == value)
             return node;
         return node.value < value
-                ? search(node.left, value)
-                : search(node.right, value);
+                ? search(node.right, value)
+                : search(node.left, value);
     }
 
     public int minValue() {

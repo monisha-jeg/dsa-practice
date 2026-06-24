@@ -19,18 +19,18 @@ public class BinarySearchTreeTest {
         tree.insert(13);
         tree.insert(14);
 
-        assertEquals(9, tree.size(), "Size after inserts");
+        assertEquals(10, tree.size(), "Size after inserts");
         assertNotNull(tree.search(7), "Root should exist after inserts");
         assertNotNull(tree.search(14), "Inserted value 14 should exist");
-        assertEquals(List.of(1, 2, 5, 6, 7, 10, 11, 13, 14), tree.inorder(), "Inorder after inserts");
+        assertEquals(List.of(1, 2, 5, 6, 7, 10, 11, 12, 13, 14), tree.inorder(), "Inorder after inserts");
 
         tree.delete(14);
         assertNull(tree.search(14), "Deleted value 14 should not be found");
-        assertEquals(8, tree.size(), "Size after deleting 14");
+        assertEquals(9, tree.size(), "Size after deleting 14");
 
         tree.delete(7);
         assertNull(tree.search(7), "Deleted root 7 should not be found");
-        assertEquals(7, tree.size(), "Size after deleting 7");
+        assertEquals(8, tree.size(), "Size after deleting 7");
     }
 
     public static void main(String[] args) {

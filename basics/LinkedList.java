@@ -114,6 +114,7 @@ public class LinkedList {
                 throw new IllegalArgumentException();
             }
             head = new Node(value, null);
+            return;
         }
         if (p == 0) {
             head = new Node(value, head);
