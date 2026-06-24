@@ -24,14 +24,14 @@ public class BinaryTreeTest {
         assertEquals(10, tree.size(), "Size after inserts");
         assertEquals(List.of(0, 1, 2, 5, 6, 10, 11, 12, 13, 14), levelOrder(tree.root),
                 "Level order after inserts");
-        assertEquals(List.of(0, 1, 2, 5, 6, 10, 11, 12, 13, 14), tree.levelOrder_QueueList(),
+        assertEquals(List.of(0, 1, 2, 5, 6, 10, 11, 12, 13, 14), tree.levelOrder_Queue(),
                 "Queue level-order list after inserts");
-        assertEquals(List.of(0, 1, 2, 5, 6, 10, 11, 12, 13, 14), tree.levelOrder_IterativeList(),
+        assertEquals(List.of(0, 1, 2, 5, 6, 10, 11, 12, 13, 14), tree.levelOrder_Iterative(),
                 "Iterative level-order list after inserts");
-        assertEquals(List.of(1, 2), tree.valuesAtLevel(2), "Values at tree level 2");
+        assertEquals(List.of(1, 2), tree.printAtLevel(2), "Values at tree level 2");
         assertEquals(4, tree.height(), "Tree height should be 4");
-        assertEquals(List.of(0, 1, 5, 12, 13, 6, 14, 2, 10, 11), tree.preorderList(), "Preorder values");
-        assertEquals(List.of(12, 5, 13, 1, 14, 6, 0, 10, 2, 11), tree.inorderList(), "Inorder values");
+        assertEquals(List.of(0, 1, 5, 12, 13, 6, 14, 2, 10, 11), tree.preorder(), "Preorder values");
+        assertEquals(List.of(12, 5, 13, 1, 14, 6, 0, 10, 2, 11), tree.inorder(), "Inorder values");
 
         tree.deleteByMovingValues(1);
         assertEquals(9, tree.size(), "Size after deleting 1");

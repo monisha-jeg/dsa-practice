@@ -17,10 +17,10 @@ public class GraphTest {
 
         assertFalse(g.hasCycle_Directed(), "Directed graph should not contain a cycle");
         assertEquals(10, g.size(), "Graph should contain 10 vertices");
-        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.dfsRecursiveList(),
+        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.dfsRecursive(),
                 "DFS recursive should visit vertices in correct order");
-        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.dfsStackList(), "DFS stack should visit vertices in correct order");
-        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.bfsList(), "BFS should visit vertices in breadth-first order");
+        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.dfsStack(), "DFS stack should visit vertices in correct order");
+        assertEquals(List.of(0, 1, 2, 5, 3, 4), g.bfs(), "BFS should visit vertices in breadth-first order");
 
         Graph dag = new Graph(6, /* directed= */ true);
         dag.addEdge(5, 2);
@@ -30,7 +30,7 @@ public class GraphTest {
         dag.addEdge(2, 3);
         dag.addEdge(3, 1);
 
-        assertEquals(List.of(5, 4, 2, 3, 1, 0), dag.topoSortList(),
+        assertEquals(List.of(5, 4, 2, 3, 1, 0), dag.topoSort(),
                 "Topological sort should preserve dependency order");
         assertEquals(List.of(4, 5, 2, 0, 3, 1), dag.topoSort_KahnsAlgorithm(),
                 "Kahn's algorithm should return a valid topological order");

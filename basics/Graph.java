@@ -143,55 +143,6 @@ public class Graph {
         return result;
     }
 
-    public void bfs() {
-        int size = size();
-        if (size == 0)
-            return;
-
-        ArrayList<Boolean> visited = new ArrayList<>();
-        for (int i = 0; i < size; i++)
-            visited.add(false);
-        System.out.println("\nBFS:");
-        for (int i = 0; i < size; i++) {
-            if (!visited.get(i))
-                bfs(i, visited);
-        }
-    }
-
-    public void bfs(int vertex, ArrayList<Boolean> visited) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(vertex);
-        while (queue.size() > 0) {
-            int v = queue.poll();
-            System.out.print(v + " ");
-            visited.set(v, true);
-            for (int i = 0; i < adjList.get(v).size(); i++) {
-                int to = adjList.get(v).get(i);
-                if (!visited.get(to)) {
-                    queue.offer(to);
-                }
-            }
-        }
-    }
-
-    public boolean hasCycle_Undirected() {
-        if (directed)
-            throw new IllegalStateException();
-        int size = size();
-        if (size == 0)
-            return false;
-
-        ArrayList<Boolean> visited = new ArrayList<>();
-        for (int i = 0; i < size; i++)
-            visited.add(false);
-        for (int i = 0; i < adjList.size(); i++) {
-            if (!visited.get(i))
-                if (hasCycle_Undirected(i, visited, -1))
-                    return true;
-        }
-        return false;
-    }
-
     public boolean hasCycle_Undirected(int vertex, ArrayList<Boolean> visited, int parent) {
         visited.set(vertex, true);
         for (int i = 0; i < adjList.get(vertex).size(); i++) {
@@ -239,30 +190,6 @@ public class Graph {
         }
         recStack.set(vertex, false);
         return false;
-    }
-
-    public void topoSort() {
-        if (!directed)
-            throw new IllegalStateException();
-        int size = size();
-        if (size == 0)
-            return;
-
-        ArrayList<Boolean> visited = new ArrayList<>();
-        for (int i = 0; i < size; i++)
-            visited.add(false);
-
-        Stack<Integer> stack = new Stack<>();
-        System.out.println("\nTopo Sort:");
-        for (int i = 0; i < size; i++) {
-            if (!visited.get(i))
-                topoSort(i, stack, visited);
-        }
-
-        while (!stack.empty()) {
-            int v = stack.pop();
-            System.out.print(v + " ");
-        }
     }
 
     public void topoSort(int vertex, Stack<Integer> stack, ArrayList<Boolean> visited) {

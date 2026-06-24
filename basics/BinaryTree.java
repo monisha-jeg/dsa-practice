@@ -22,21 +22,7 @@ public class BinaryTree {
         return 1 + size(root.right) + size(root.left);
     }
 
-    public void preorder() {
-        System.out.println("\nPreorder:");
-        preorder(root);
-    }
-
-    void preorder(TreeNode root) {
-        if (root == null) {
-            return;
-        }
-        System.out.print(root.value + " ");
-        preorder(root.left);
-        preorder(root.right);
-    }
-
-    public ArrayList<Integer> preorderList() {
+    public ArrayList<Integer> preorder() {
         ArrayList<Integer> values = new ArrayList<>();
         preorder(root, values);
         return values;
@@ -51,36 +37,22 @@ public class BinaryTree {
         preorder(root.right, values);
     }
 
-    public void postorder() {
-        System.out.println("\nPostorder:");
-        postorder(root);
+    public ArrayList<Integer> postorder() {
+        ArrayList<Integer> values = new ArrayList<>();
+        postorder(root, values);
+        return values;
     }
 
-    void postorder(TreeNode root) {
+    void postorder(TreeNode root, ArrayList<Integer> values) {
         if (root == null) {
             return;
         }
-        postorder(root.left);
-        postorder(root.right);
-        System.out.print(root.value + " ");
-
+        postorder(root.left, values);
+        postorder(root.right, values);
+        values.add(root.value);
     }
 
-    public void inorder() {
-        System.out.println("\nInorder:");
-        inorder(root);
-    }
-
-    void inorder(TreeNode root) {
-        if (root == null) {
-            return;
-        }
-        inorder(root.left);
-        System.out.print(root.value + " ");
-        inorder(root.right);
-    }
-
-    public ArrayList<Integer> inorderList() {
+    public ArrayList<Integer> inorder() {
         ArrayList<Integer> values = new ArrayList<>();
         inorder(root, values);
         return values;
@@ -106,28 +78,13 @@ public class BinaryTree {
         return Math.max(height(root.left), height(root.right)) + 1;
     }
 
-    public void printAtLevel(int level) {
-        printAtLevel(root, level);
-    }
-
-    void printAtLevel(TreeNode root, int level) {
-        if (root == null) {
-            return;
-        }
-        if (level == 1) {
-            System.out.print(root.value + " ");
-        }
-        printAtLevel(root.left, level - 1);
-        printAtLevel(root.right, level - 1);
-    }
-
-    public ArrayList<Integer> valuesAtLevel(int level) {
+    public ArrayList<Integer> printAtLevel(int level) {
         ArrayList<Integer> values = new ArrayList<>();
         collectValuesAtLevel(root, level, values);
         return values;
     }
 
-    void collectValuesAtLevel(TreeNode root, int level, ArrayList<Integer> values) {
+    private void collectValuesAtLevel(TreeNode root, int level, ArrayList<Integer> values) {
         if (root == null) {
             return;
         }
@@ -139,22 +96,7 @@ public class BinaryTree {
         collectValuesAtLevel(root.right, level - 1, values);
     }
 
-    public void levelOrder_Queue() {
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.offer(root);
-
-        System.out.println("\nLevel order:");
-        while (!queue.isEmpty()) {
-            TreeNode first = queue.poll();
-            System.out.print(first.value + " ");
-            if (first.left != null)
-                queue.offer(first.left);
-            if (first.right != null)
-                queue.offer(first.right);
-        }
-    }
-
-    public ArrayList<Integer> levelOrder_QueueList() {
+    public ArrayList<Integer> levelOrder_Queue() {
         ArrayList<Integer> values = new ArrayList<>();
         if (root == null) {
             return values;
@@ -172,20 +114,11 @@ public class BinaryTree {
         return values;
     }
 
-    public void levelOrder_Iterative() {
-        int height = height();
-        System.out.println("\nLevel order iterative:");
-        for (int i = 1; i <= height; i++) {
-            printAtLevel(i);
-            System.out.println();
-        }
-    }
-
-    public ArrayList<Integer> levelOrder_IterativeList() {
+    public ArrayList<Integer> levelOrder_Iterative() {
         ArrayList<Integer> values = new ArrayList<>();
         int height = height();
         for (int i = 1; i <= height; i++) {
-            values.addAll(valuesAtLevel(i));
+            values.addAll(printAtLevel(i));
         }
         return values;
     }
