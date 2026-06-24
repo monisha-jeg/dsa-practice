@@ -1,6 +1,7 @@
 package basics.tests;
 
 import basics.*;
+import static basics.tests.TestUtils.*;
 
 public class StackTest {
 
@@ -9,7 +10,10 @@ public class StackTest {
         stack.push(1);
         stack.push(2);
         stack.push(3);
-        System.out.println("Stack after pushes: " + stack.pop() + " " + stack.pop() + " " + stack.pop());
+
+        assertEquals(3, stack.pop(), "First popped value should be 3");
+        assertEquals(2, stack.pop(), "Second popped value should be 2");
+        assertEquals(1, stack.pop(), "Third popped value should be 1");
     }
 
     public static void main(String[] args) {

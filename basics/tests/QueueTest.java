@@ -1,6 +1,7 @@
 package basics.tests;
 
 import basics.*;
+import static basics.tests.TestUtils.*;
 
 public class QueueTest {
 
@@ -9,7 +10,10 @@ public class QueueTest {
         queue.enqueue(1);
         queue.enqueue(2);
         queue.enqueue(3);
-        System.out.println("Queue after enqueues: " + queue.dequeue() + " " + queue.dequeue() + " " + queue.dequeue());
+
+        assertEquals(1, queue.dequeue(), "First dequeued value should be 1");
+        assertEquals(2, queue.dequeue(), "Second dequeued value should be 2");
+        assertEquals(3, queue.dequeue(), "Third dequeued value should be 3");
     }
 
     public static void main(String[] args) {

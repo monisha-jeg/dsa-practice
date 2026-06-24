@@ -78,11 +78,7 @@ public class CircularLinkedList {
             head = null;
             return;
         }
-        if (head.next.next == head) {
-            head.next = head;
-            return;
-        }
-        Node current = head.next;
+        Node current = head;
         while (current.next.next != head) {
             current = current.next;
         }

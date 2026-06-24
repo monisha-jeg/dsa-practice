@@ -166,9 +166,6 @@ public class LinkedList {
     }
 
     public void reverse() {
-        if (head == null) {
-            return;
-        }
         Node toReverseStartingFromNode = head;
         Node lastNodeOfReversedPortion = null;
         while (toReverseStartingFromNode != null) {

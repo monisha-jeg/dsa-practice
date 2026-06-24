@@ -1,5 +1,6 @@
 package basics;
 
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
 
@@ -35,6 +36,21 @@ public class BinaryTree {
         preorder(root.right);
     }
 
+    public ArrayList<Integer> preorderList() {
+        ArrayList<Integer> values = new ArrayList<>();
+        preorder(root, values);
+        return values;
+    }
+
+    void preorder(TreeNode root, ArrayList<Integer> values) {
+        if (root == null) {
+            return;
+        }
+        values.add(root.value);
+        preorder(root.left, values);
+        preorder(root.right, values);
+    }
+
     public void postorder() {
         System.out.println("\nPostorder:");
         postorder(root);
@@ -64,6 +80,21 @@ public class BinaryTree {
         inorder(root.right);
     }
 
+    public ArrayList<Integer> inorderList() {
+        ArrayList<Integer> values = new ArrayList<>();
+        inorder(root, values);
+        return values;
+    }
+
+    void inorder(TreeNode root, ArrayList<Integer> values) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.left, values);
+        values.add(root.value);
+        inorder(root.right, values);
+    }
+
     public int height() {
         return height(root);
     }
@@ -90,7 +121,25 @@ public class BinaryTree {
         printAtLevel(root.right, level - 1);
     }
 
-    public void levelOrderQueue() {
+    public ArrayList<Integer> valuesAtLevel(int level) {
+        ArrayList<Integer> values = new ArrayList<>();
+        collectValuesAtLevel(root, level, values);
+        return values;
+    }
+
+    void collectValuesAtLevel(TreeNode root, int level, ArrayList<Integer> values) {
+        if (root == null) {
+            return;
+        }
+        if (level == 1) {
+            values.add(root.value);
+            return;
+        }
+        collectValuesAtLevel(root.left, level - 1, values);
+        collectValuesAtLevel(root.right, level - 1, values);
+    }
+
+    public void levelOrder_Queue() {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
 
@@ -105,13 +154,40 @@ public class BinaryTree {
         }
     }
 
-    public void levelOrderIterative() {
+    public ArrayList<Integer> levelOrder_QueueList() {
+        ArrayList<Integer> values = new ArrayList<>();
+        if (root == null) {
+            return values;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode first = queue.poll();
+            values.add(first.value);
+            if (first.left != null)
+                queue.offer(first.left);
+            if (first.right != null)
+                queue.offer(first.right);
+        }
+        return values;
+    }
+
+    public void levelOrder_Iterative() {
         int height = height();
         System.out.println("\nLevel order iterative:");
         for (int i = 1; i <= height; i++) {
             printAtLevel(i);
             System.out.println();
         }
+    }
+
+    public ArrayList<Integer> levelOrder_IterativeList() {
+        ArrayList<Integer> values = new ArrayList<>();
+        int height = height();
+        for (int i = 1; i <= height; i++) {
+            values.addAll(valuesAtLevel(i));
+        }
+        return values;
     }
 
     public void insert(int value) {
@@ -135,7 +211,7 @@ public class BinaryTree {
         }
     }
 
-    public void deleteByMovingNodes(int value) {
+    public void delete_ByMovingNodes(int value) {
         if (root.value == value) { // Special case for root.
             if (root.left != null) {
                 freeRightChildSpotOf(root.left);
@@ -196,6 +272,10 @@ public class BinaryTree {
     }
 
     public void deleteByMovingValues(int value) {
+        delete_ByMovingValues(value);
+    }
+
+    public void delete_ByMovingValues(int value) {
         if (root.value == value) { // Special case for root.
             if (root.left != null) {
                 root.value = root.left.value;

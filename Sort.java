@@ -156,6 +156,5 @@ public class Sort {
 
         System.out.println("Merge Sort: " + Arrays.toString(mergeSort(sampleArray.clone())));
         System.out.println("Merge Sort: " + Arrays.toString(mergeSortWithoutExtraSubArrays(sampleArray.clone())));
-
-
+    }
 }
