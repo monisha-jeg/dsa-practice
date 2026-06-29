@@ -33,6 +33,23 @@ public class BinaryTreeTest {
         assertEquals(List.of(0, 1, 5, 12, 13, 6, 14, 2, 10, 11), tree.preorder(), "Preorder values");
         assertEquals(List.of(12, 5, 13, 1, 14, 6, 0, 10, 2, 11), tree.inorder(), "Inorder values");
 
+        TreeNode validBstRoot = new TreeNode(7);
+        validBstRoot.left = new TreeNode(3);
+        validBstRoot.right = new TreeNode(10);
+        validBstRoot.left.left = new TreeNode(1);
+        validBstRoot.left.right = new TreeNode(5);
+        validBstRoot.right.left = new TreeNode(9);
+        validBstRoot.right.right = new TreeNode(12);
+        BinaryTree validBstTree = new BinaryTree(validBstRoot);
+        assertTrue(validBstTree.isBinarySearchTree(validBstRoot), "Valid BST should be recognized");
+
+        TreeNode invalidBstRoot = new TreeNode(7);
+        invalidBstRoot.left = new TreeNode(3);
+        invalidBstRoot.right = new TreeNode(10);
+        invalidBstRoot.left.right = new TreeNode(12); // violates BST property for left subtree
+        BinaryTree invalidBstTree = new BinaryTree(invalidBstRoot);
+        assertFalse(invalidBstTree.isBinarySearchTree(invalidBstRoot), "Invalid BST should be rejected");
+
         tree.delete_byMovingValues(1);
         assertEquals(9, tree.size(), "Size after deleting 1");
         assertEquals(-1, tree.search(1), "Deleted value 1 should not be found");

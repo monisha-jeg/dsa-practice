@@ -384,4 +384,16 @@ public class BinaryTree {
         deepest.left = (leftChild == deepest) ? null : leftChild;
         deepest.right = (rightChild == deepest) ? null : rightChild;
     }
+
+    public boolean isBinarySearchTree(TreeNode root) {
+        return isBinarySearchTree(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private boolean isBinarySearchTree(TreeNode root, int min, int max) {
+        if (root == null)
+            return true;
+        if (root.value < min || root.value > max) 
+            return false;
+        return (root.left == null || isBinarySearchTree(root.left, min, root.value)) && (root.right == null || isBinarySearchTree(root.right, root.value, max));
+    }
 }
