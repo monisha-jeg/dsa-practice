@@ -1,14 +1,15 @@
 import java.util.Arrays;
 
 public class Search {
-    
+
     public static int linearSearch(int[] arr, int target) {
         for (int i = 0; i < arr.length; i++)
             if (arr[i] == target)
                     return i;
         return -1;
     }
-    
+
+    // Also look at the upper and lower bound solutions in https://neetcode.io/problems/binary-search/solution.
     public static int binarySearch(int[] arr, int target) {
         int start = 0, end = arr.length - 1;
         while(start <= end) {
@@ -22,17 +23,17 @@ public class Search {
         }
         return -1;
     }
-    
+
     public static void main(String[] args) {
         int[] sampleArray = {11, 12, 22, 25, 34, 64, 88, 90};
         int target = 25;
-        
+
         System.out.println("Sample array: " + Arrays.toString(sampleArray));
         System.out.println("Target: " + target);
         System.out.println("\nSearch results:");
-        
+
         System.out.println("Linear Search: " + linearSearch(sampleArray, target));
         System.out.println("Binary Search: " + binarySearch(sampleArray, target));
     }
-    
+
 }
