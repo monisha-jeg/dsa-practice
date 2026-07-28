@@ -220,4 +220,6 @@ public class LinkedList {
         current.next = null;
         temp.next = current;
     }
+
+    // https://www.geeksforgeeks.org/dsa/find-first-node-of-loop-in-a-linked-list/
 }
