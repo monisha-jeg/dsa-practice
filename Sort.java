@@ -144,6 +144,33 @@ public class Sort {
         return sortedArr;
     }
 
+
+    // Related - see also https://www.geeksforgeeks.org/dsa/quickselect-algorithm/.
+    public static int[] quickSort(int[] arr) {
+        quickSort(arr, 0, arr.length - 1);
+        return arr;
+    }
+
+    public static void quickSort(int[] arr, int left, int right) {
+        if (left >= right)
+            return;
+        int pivot = partition(arr, left, right);
+        quickSort(arr, left, pivot - 1);
+        quickSort(arr, pivot + 1, right);
+    }
+
+    public static int partition(int[] arr, int left, int right) {
+        int pivotValue = arr[right];
+        int lastOfLesserValuesPlusOne = left;
+        for (int i = left; i < right; i++)
+            if (arr[i] < pivotValue) {
+                swap(arr, i, lastOfLesserValuesPlusOne);
+                lastOfLesserValuesPlusOne++;
+            }
+        swap(arr, lastOfLesserValuesPlusOne, right);
+        return lastOfLesserValuesPlusOne;
+    }
+
     public static void main(String[] args) {
         int[] sampleArray = { 64, 34, 25, 12, 22, 11, 90, 88 };
 
@@ -156,5 +183,8 @@ public class Sort {
 
         System.out.println("Merge Sort: " + Arrays.toString(mergeSort(sampleArray.clone())));
         System.out.println("Merge Sort: " + Arrays.toString(mergeSortWithoutExtraSubArrays(sampleArray.clone())));
+
+        System.out.println("Counting Sort: " + Arrays.toString(countingSort(sampleArray.clone())));
+        System.out.println("Quick Sort: " + Arrays.toString(quickSort(sampleArray.clone())));
     }
 }
